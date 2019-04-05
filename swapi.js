@@ -1,6 +1,7 @@
 // Write your swapi code in this file!
 
 document.querySelector('#crawlBtn').addEventListener('click', getOpeningCrawl)
+document.querySelector('#planetForm').addEventListener('submit', getPlanet)
 
 function getOpeningCrawl(){
   fetch('https://swapi.co/api/films/1/')
@@ -15,6 +16,22 @@ function insertCrawl(input){
   newP.innerText = input;
 }
 
-function getPlanet(){
+function getPlanet(e){
+  e.preventDefault()
+  const i = document.getElementById('planetForm').querySelector('input').value
+  document.getElementById('planetForm').querySelector('input').value = ""
+  // debugger
+  fetch(`https://swapi.co/api/planets/${i}`)
+    .then(res => res.json())
+    .then(json => {
+      let input = `The planet ${json.name} has a ${json.climate} climate.`
+      insertPlanet(input)
+    })
+}
 
+function insertPlanet(input) {
+  const planetData = document.querySelector('#planetData')
+  let newP = document.createElement('p');
+  planetData.appendChild(newP)
+  newP.innerText = input;
 }
